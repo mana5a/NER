@@ -14,22 +14,18 @@ export class TagComponent implements OnInit {
   result:any;
   filter()
   {
-  this.httpClient.post<any>(this.SERVER_URL,{'text':this.text}).subscribe(
-    (res) => 
-    {
       this.httpClient.get<any>("http://localhost:5000/fetch?clicked="+this.text).subscribe((data) =>
       {
         // console.log("PICKED"+this.text);
         // console.log(res);
         // console.log("sent");
-        this.result=res;
-        console.log(data+"this.data")
+        this.result=data;
+        console.log(this.result);
       },
+      //(err) => console.log(err);
       );
-    },
-    (err) => console.log(err)
-  );
-  }
+   }
+
   ngOnInit() {
   }
 

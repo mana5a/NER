@@ -1,9 +1,23 @@
 .tag
 {
     height:50px;
+    line-height: 50px;
     width:120px;
     border-radius:5px;
     padding:2px;
     margin:2px;
     background-color: lightgreen;
+    float:left;
+    text-align:center;
+}
+
+.res
+{
+    height:70px;
+    border-radius:5px;
+    padding:2px;
+    margin:2px;
+    background-color: aquamarine;
+    display:block;
+    float: left;    
 }

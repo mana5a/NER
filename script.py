@@ -58,6 +58,7 @@ def ner():
     myclient = pymongo.MongoClient("mongodb://localhost:27017/")
     mydb = myclient["mydatabase2"]
     mycol = mydb["customers"]
+    mydb.customers.drop()
     x = mycol.insert_many(x)
     # print("printing flatten")
     flatten = list(itertools.chain.from_iterable(tags))

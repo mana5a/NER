@@ -1,3 +1,10 @@
 <div class="tag" (click)="filter()">
     {{text}}
 </div>
+
+
+<div class="res" *ngFor="let a of result">
+    {{a.question}} 
+    <br>
+    {{a.answer}}
+</div>
