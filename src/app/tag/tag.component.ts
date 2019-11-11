@@ -17,10 +17,15 @@ export class TagComponent implements OnInit {
   this.httpClient.post<any>(this.SERVER_URL,{'text':this.text}).subscribe(
     (res) => 
     {
-      console.log("PICKED"+this.text);
-      console.log(res);
-      console.log("sent");
-      this.result=res;
+      this.httpClient.get<any>("http://localhost:5000/fetch?clicked="+this.text).subscribe((data) =>
+      {
+        // console.log("PICKED"+this.text);
+        // console.log(res);
+        // console.log("sent");
+        this.result=res;
+        console.log(data+"this.data")
+      },
+      );
     },
     (err) => console.log(err)
   );

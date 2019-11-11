@@ -11,14 +11,16 @@
 #     return [(X.text,X.label_) for X in doc.ents]
 
 # #ner()
-
+import itertools
+import pymongo
 import spacy 
 from spacy import displacy
 from collections import Counter 
 import en_core_web_sm
+import json 
 nlp=en_core_web_sm.load()
 import pandas as pd 
-file=pd.read_csv('placement.csv',skiprows=[0,-1],usecols=[2,3])
+file=pd.read_csv('placement.csv',skiprows=[0],usecols=[2,3])
 df=pd.DataFrame(file)
 
 data=[]
@@ -29,17 +31,56 @@ for i in range (0, len(df)):
     data.append(obj)
 
 def ner():
-    tags=[]
+    tags = list()
     for i in range(0, len(data)):
+        ## uncomment if using python 2.x
+        #x = unicode(data[i]['question'], "utf-8")
         doc = nlp(data[i]['question'])
-        for ent in doc.ents: 
-            #print(type(ent.label_),ent.label_)
+        l = list()
+        for ent in doc.ents:
             if(str(ent.label_)==str('CARDINAL') or str(ent.label_)==str('ORDINAL')):
-                #print(ent.text, ent.label_) 
                 pass                
             else:
-                print(ent.text, ent.label_) 
-                tags.append((ent.text,ent.label_))
-                
-    return (list(set(tags)))
+                l.append((ent.text, ent.label_))
+        tags.append(l)
+    x = list()
+    for i in range(0, len(data)):
+        y = {}
+        y['question'] = df['question'][i]
+        y['answer'] = df['answer'][i]
+        z = list()
+        for j in range(0, len(tags[i])):
+            #print(type(tags[i][j]))
+            z.append(list(tags[i][j]))
+        y['tags'] = z
+        x.append(y)
+    # print(x)
+    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+    mydb = myclient["mydatabase2"]
+    mycol = mydb["customers"]
+    x = mycol.insert_many(x)
+    # print("printing flatten")
+    flatten = list(itertools.chain.from_iterable(tags))
+    # print(flatten)
+    # print("flatten done")
+    # cursor = mycol.find({})
+    # res = list()
+    # for i in cursor:
+    #     res.append(i)
+    return list(set(flatten))
 
+def fetch(args):
+    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+    mydb = myclient["mydatabase2"]
+    mycol = mydb["customers"]
+    cursor = mycol.find({"tags":{"$elemMatch":{"$elemMatch":{"$in":[args]}}} })
+    # print(cursor)
+    data = list()
+    for i in cursor:
+        x = dict()
+        x['question'] = i['question']
+        x['answer'] = i['answer']
+        data.append(x)
+        print(x)
+    print(len(data))
+    return list(data)

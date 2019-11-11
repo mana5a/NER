@@ -17,6 +17,14 @@ def callner():
                 a=script.ner()
                 return jsonify(a)
 
+@app.route('/fetch', methods=['GET', 'POST'])
+def callfetch():
+        if request.method=="GET":
+                args=request.args.get('clicked')
+                res = script.fetch(args)
+                return jsonify(res)
+
+
 @app.route('/choice',methods=['GET','POST'])
 def choice():
         if request.method=="POST":

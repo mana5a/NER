@@ -18,9 +18,9 @@ export class AppComponent {
   this.httpClient.get<any>(this.SERVER_URL).subscribe(
     (res) => 
     {
-      console.log(res);
-      console.log("here");
-      this.result=res;
+          console.log(res);
+          console.log("here");
+          this.result=res;
     },
     (err) => console.log(err)
   );
