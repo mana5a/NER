@@ -1,0 +1,27 @@
+<div class="card-container">
+<div class="card-content">
+    <form class="form-inline waves-light searchform" mdbWavesEffect>
+        <div class="form-group md-form mt-0 search">
+                <label  for="search">Enter Search Key</label>
+                <br/>
+                <input type="text" class="form-control" id="key" 
+                required
+                [(ngModel)] = "key" name = "key"
+                #name = "ngModel" appKeyup (debounceKeyup) = "search($event)">
+        </div>
+    </form>
+        
+    <div *ngIf="isArrayLength()">
+        <ul class="list-group search_list">
+            <li *ngFor="let r of opArray" class="list-group-item search_item">
+                <label>Question: </label>
+                {{r.question}}
+                <br/>
+                <label>Answer: </label>
+                {{r.answer}}
+                <br/>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>

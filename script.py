@@ -71,13 +71,23 @@ def ner():
     return list(set(flatten))
 
 def fetch(args):
+    print("args inside", args, len(args), type(args))
+    data1 = list()
+    data1.append(args) 
+    print(data1)
     myclient = pymongo.MongoClient("mongodb://localhost:27017/")
     mydb = myclient["mydatabase2"]
     mycol = mydb["customers"]
-    cursor = mycol.find({"tags":{"$elemMatch":{"$elemMatch":{"$in":[args]}}} })
+    # cursor = mycol.find({"tags":{"$elemMatch":{"$elemMatch":{"$in":[args]}}} })
+    cursor = mycol.find({'tags':{"$elemMatch":{"$elemMatch":{"$in":data1}}}})
+
     # print(cursor)
+    
+    # cursor = mycol.find({"$text": {"$search": args}})
+
     data = list()
     for i in cursor:
+        print("hello")
         x = dict()
         x['question'] = i['question']
         x['answer'] = i['answer']

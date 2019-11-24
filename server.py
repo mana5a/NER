@@ -17,11 +17,13 @@ def callner():
                 a=script.ner()
                 return jsonify(a)
 
-@app.route('/fetch', methods=['GET', 'POST'])
+@app.route('/get_tags', methods=['GET', 'POST'])
 def callfetch():
         if request.method=="GET":
-                args=request.args.get('clicked')
+                args=request.args.get('key')
+                print("args hello", args)
                 res = script.fetch(args)
+                print(res)
                 return jsonify(res)
 
 
@@ -31,6 +33,7 @@ def choice():
                 data=request.form.get('text')
                 print("data",data)
                 return jsonify(data)
+
 
 
 if __name__ == '__main__':

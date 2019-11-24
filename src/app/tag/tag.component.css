@@ -1,14 +1,15 @@
 .tag
 {
-    height:50px;
-    line-height: 50px;
-    width:120px;
+    height:15px;
+    line-height: 15px;
+    width:80px;
     border-radius:5px;
     padding:2px;
     margin:2px;
-    background-color: lightgreen;
+    background-color: rgb(164, 218, 240);
     float:left;
     text-align:center;
+    font-size: 7px;
 }
 
 .res
